@@ -1,0 +1,6 @@
+cat /mnt/ratings.csv | cut -f 1 -d ',' | uniq -c | sort -n -r -k 1 | head -n 5
+  32202 72315
+   9178 80974
+   8913 137293
+   7919 33844
+   7488 20055
