@@ -1,0 +1,10 @@
+#### Задание
+В файле movies.csv лежит база фильмов. Название фильма записано во втором столбце title.
+Разбейте названия фильмов на отдельные слова и посчитайте какое слово встречается чаще всего.
+####
+
+команда
+>>> data.map(lambda line: line.split(',')[1]).flatMap(lambda line: line.split(' ')).map(lambda line: (line, 1)).reduceByKey(lambda w, k: w+k).takeOrdered(1, key=lambda k: -k[1])
+
+Ответ
+[('of', 946)]
