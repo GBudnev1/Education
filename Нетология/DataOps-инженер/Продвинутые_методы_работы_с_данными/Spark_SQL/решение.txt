@@ -1,0 +1,85 @@
+Задание №1
+Выберите 15 стран с наибольшим процентом переболевших на 31 марта (в выходящем датасете необходимы колонки: iso_code, страна, процент переболевших)
+
+Не понятно как должно расчитывается число переболевших. Нужно пояснение.
+
+
+Задание №2
+Top 10 стран с максимальным зафиксированным кол-вом новых случаев за последнюю неделю марта 2021 в отсортированном порядке по убыванию
+(в выходящем датасете необходимы колонки: число, страна, кол-во новых случаев)
+
+Задание №2
+Top 10 стран с максимальным зафиксированным кол-вом новых случаев за последнюю неделю марта 2021 в отсортированном порядке по убыванию
+(в выходящем датасете необходимы колонки: число, страна, кол-во новых случаев)
+
+from pyspark.sql import functions as F
+
+-- Читаем данные в датафрейм
+df = spark.read.option('header', True).option('sep',',').option('inferSchema', True).csv('owid-covid-data.csv')
+
+-- исключаем статистику по континентам
+df1=df.select('date', 'location', 'new_cases', 'iso_code').filter("iso_code not like 'OWID%'")
+
+-- Ограничиваем по дате. Берем последнюю неделю марта 2021
+df1=df1.select('date', 'location', 'new_cases', 'iso_code').filter("CAST(date as DATE) >= CAST('2021-03-24' as DATE) and CAST(date as DATE) <= CAST('2021-03-31' as DATE)")
+
+
+-- группируем по макс новым случаям за каждую дату
+df1=df1.groupBy('date','location').max('new_cases')
+
+-- переименуем поле
+df1=df1.withColumnRenamed('max(new_cases)', 'max_new_cases_per_date')
+
+-- отсортировываем в порядке убывания по кол-ву новых случаев и стране. Выводим только 10 первых строк
+df1.select('date', 'location', 'max_new_cases_per_date').orderBy(F.col('max_new_cases_per_date').desc(), F.col('location')).show(10)
+
++----------+-------------+----------------------+
+|      date|     location|max_new_cases_per_date|
++----------+-------------+----------------------+
+|2021-03-25|       Brazil|              100158.0|
+|2021-03-31|       Brazil|               90638.0|
+|2021-03-24|       Brazil|               89992.0|
+|2021-03-24|United States|               86960.0|
+|2021-03-27|       Brazil|               85948.0|
+|2021-03-30|       Brazil|               84494.0|
+|2021-03-26|       Brazil|               84245.0|
+|2021-03-26|United States|               77321.0|
+|2021-03-31|        India|               72330.0|
+|2021-03-29|United States|               69429.0|
++----------+-------------+----------------------+
+only showing top 10 rows
+
+
+Задание №3
+Посчитайте изменение случаев относительно предыдущего дня в России за последнюю неделю марта 2021. (например: в россии вчера было 9150 , сегодня 8763, итог: -387) (в выходящем датасете необходимы колонки: число, кол-во новых случаев вчера, кол-во новых случаев сегодня, дельта)
+-- импортируем классы
+from pyspark.sql import functions as F
+from pyspark.sql.window import Window as W
+
+-- Читаем данные в датафрейм
+df = spark.read.option('header', True).option('sep',',').option('inferSchema', True).csv('owid-covid-data.csv')
+
+-- Фильтруем по коду страны
+df1=df.select('date', 'location', 'new_cases', 'iso_code').filter("iso_code = 'RUS'")
+
+-- добавляем lag
+windowSpec = W.partitionBy('location').orderBy('date')
+df2=df1.withColumn('lag',F.lag('new_cases',1).over(windowSpec))
+
+-- фильтруем по последней неделе марта
+df2=df2.select('date', 'location', 'new_cases', 'iso_code', 'lag').filter("CAST(date as DATE) >= CAST('2021-03-24' as DATE) and CAST(date as DATE) <= CAST('2021-03-31' as DATE)")
+
+-- кол-во новых случаев сегодня, дельта
+df2.withColumn('delta',F.col('lag')-F.col('new_cases')).show()
++----------+--------+---------+--------+------+------+
+|      date|location|new_cases|iso_code|   lag| delta|
++----------+--------+---------+--------+------+------+
+|2021-03-24|  Russia|   8769.0|     RUS|8369.0|-400.0|
+|2021-03-25|  Russia|   9128.0|     RUS|8769.0|-359.0|
+|2021-03-26|  Russia|   9073.0|     RUS|9128.0|  55.0|
+|2021-03-27|  Russia|   8783.0|     RUS|9073.0| 290.0|
+|2021-03-28|  Russia|   8979.0|     RUS|8783.0|-196.0|
+|2021-03-29|  Russia|   8589.0|     RUS|8979.0| 390.0|
+|2021-03-30|  Russia|   8162.0|     RUS|8589.0| 427.0|
+|2021-03-31|  Russia|   8156.0|     RUS|8162.0|   6.0|
++----------+--------+---------+--------+------+------+
