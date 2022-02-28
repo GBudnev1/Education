@@ -2,6 +2,34 @@
 Выберите 15 стран с наибольшим процентом переболевших на 31 марта (в выходящем датасете необходимы колонки: iso_code, страна, процент переболевших)
 
 Не понятно как должно расчитывается число переболевших. Нужно пояснение.
+-- производим расчет только за 31.03
+df1=df.select('iso_code', 'location', 'date', (F.col('total_cases')-F.col('total_deaths'))/F.col('population')).filter("date LIKE '%03-31'")
+
+-- переименуем поле
+df1=df1.withColumnRenamed('((total_cases - total_deaths) / population)', 'percent_whbi')
+
+df1.select('iso_code', 'location','percent_whbi').orderBy(F.col('percent_whbi').desc()).show(15)
+
++--------+-------------+-------------------+
+|iso_code|     location|       percent_whbi|
++--------+-------------+-------------------+
+|     AND|      Andorra| 0.1539506891865657|
+|     MNE|   Montenegro|0.14320879148873839|
+|     CZE|      Czechia|0.14062130275314685|
+|     SMR|   San Marino|0.13689669397135953|
+|     SVN|     Slovenia| 0.1017613851727714|
+|     LUX|   Luxembourg|0.09728168492082763|
+|     ISR|       Israel| 0.0955337164944398|
+|     USA|United States|0.09036138614323529|
+|     SRB|       Serbia|0.08748322457350885|
+|     BHR|      Bahrain| 0.0845824153156208|
+|     PAN|       Panama|0.08087039673975518|
+|     EST|      Estonia|0.07954685086529684|
+|     PRT|     Portugal|0.07893469921220644|
+|     SWE|       Sweden|0.07836417879708138|
+|     LTU|    Lithuania|0.07807578249349537|
++--------+-------------+-------------------+
+only showing top 15 rows
 
 
 Задание №2
@@ -25,28 +53,28 @@ df1=df1.select('date', 'location', 'new_cases', 'iso_code').filter("CAST(date as
 
 
 -- группируем по макс новым случаям за каждую дату
-df1=df1.groupBy('date','location').max('new_cases')
+df1=df1.groupBy('location').max('new_cases')
 
 -- переименуем поле
 df1=df1.withColumnRenamed('max(new_cases)', 'max_new_cases_per_date')
 
 -- отсортировываем в порядке убывания по кол-ву новых случаев и стране. Выводим только 10 первых строк
-df1.select('date', 'location', 'max_new_cases_per_date').orderBy(F.col('max_new_cases_per_date').desc(), F.col('location')).show(10)
+df1.select('location', 'max_new_cases_per_date').orderBy(F.col('max_new_cases_per_date').desc(), F.col('location')).show(10)
 
-+----------+-------------+----------------------+
-|      date|     location|max_new_cases_per_date|
-+----------+-------------+----------------------+
-|2021-03-25|       Brazil|              100158.0|
-|2021-03-31|       Brazil|               90638.0|
-|2021-03-24|       Brazil|               89992.0|
-|2021-03-24|United States|               86960.0|
-|2021-03-27|       Brazil|               85948.0|
-|2021-03-30|       Brazil|               84494.0|
-|2021-03-26|       Brazil|               84245.0|
-|2021-03-26|United States|               77321.0|
-|2021-03-31|        India|               72330.0|
-|2021-03-29|United States|               69429.0|
-+----------+-------------+----------------------+
++-------------+----------------------+
+|     location|max_new_cases_per_date|
++-------------+----------------------+
+|       Brazil|              100158.0|
+|United States|               86960.0|
+|        India|               72330.0|
+|       France|               65392.0|
+|       Turkey|               39302.0|
+|       Poland|               35145.0|
+|      Germany|               25014.0|
+|        Italy|               24076.0|
+|         Peru|               19206.0|
+|      Ukraine|               18226.0|
++-------------+----------------------+
 only showing top 10 rows
 
 
@@ -70,16 +98,16 @@ df2=df1.withColumn('lag',F.lag('new_cases',1).over(windowSpec))
 df2=df2.select('date', 'location', 'new_cases', 'iso_code', 'lag').filter("CAST(date as DATE) >= CAST('2021-03-24' as DATE) and CAST(date as DATE) <= CAST('2021-03-31' as DATE)")
 
 -- кол-во новых случаев сегодня, дельта
-df2.withColumn('delta',F.col('lag')-F.col('new_cases')).show()
+df2.withColumn('delta',F.col('new_cases')-F.col('lag')).show()
 +----------+--------+---------+--------+------+------+
 |      date|location|new_cases|iso_code|   lag| delta|
 +----------+--------+---------+--------+------+------+
-|2021-03-24|  Russia|   8769.0|     RUS|8369.0|-400.0|
-|2021-03-25|  Russia|   9128.0|     RUS|8769.0|-359.0|
-|2021-03-26|  Russia|   9073.0|     RUS|9128.0|  55.0|
-|2021-03-27|  Russia|   8783.0|     RUS|9073.0| 290.0|
-|2021-03-28|  Russia|   8979.0|     RUS|8783.0|-196.0|
-|2021-03-29|  Russia|   8589.0|     RUS|8979.0| 390.0|
-|2021-03-30|  Russia|   8162.0|     RUS|8589.0| 427.0|
-|2021-03-31|  Russia|   8156.0|     RUS|8162.0|   6.0|
+|2021-03-24|  Russia|   8769.0|     RUS|8369.0| 400.0|
+|2021-03-25|  Russia|   9128.0|     RUS|8769.0| 359.0|
+|2021-03-26|  Russia|   9073.0|     RUS|9128.0| -55.0|
+|2021-03-27|  Russia|   8783.0|     RUS|9073.0|-290.0|
+|2021-03-28|  Russia|   8979.0|     RUS|8783.0| 196.0|
+|2021-03-29|  Russia|   8589.0|     RUS|8979.0|-390.0|
+|2021-03-30|  Russia|   8162.0|     RUS|8589.0|-427.0|
+|2021-03-31|  Russia|   8156.0|     RUS|8162.0|  -6.0|
 +----------+--------+---------+--------+------+------+
