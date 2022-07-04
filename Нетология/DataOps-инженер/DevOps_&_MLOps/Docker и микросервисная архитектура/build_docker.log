@@ -1,0 +1,253 @@
+$ docker build -t netology-ml:netology-ml .
+Sending build context to Docker daemon  3.584kB
+Step 1/5 : FROM continuumio/miniconda3:latest
+ ---> ce7d119281a1
+Step 2/5 : WORKDIR /app
+ ---> Using cache
+ ---> 12575b2514f9
+Step 3/5 : COPY 1.sh .
+ ---> Using cache
+ ---> 8e7fdde4b220
+Step 4/5 : RUN conda install -y -c conda-forge pymysql boto3 mlflow
+ ---> Running in 636fe8ca15fb
+Collecting package metadata (current_repodata.json): ...working... done
+Solving environment: ...working... done
+
+
+==> WARNING: A newer version of conda exists. <==
+  current version: 4.12.0
+  latest version: 4.13.0
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+
+## Package Plan ##
+
+  environment location: /opt/conda
+
+  added / updated specs:
+    - boto3
+    - mlflow
+    - pymysql
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    alembic-1.8.0              |     pyhd8ed1ab_0         137 KB  conda-forge
+    appdirs-1.4.4              |     pyh9f0ad1d_0          13 KB  conda-forge
+    asn1crypto-1.5.1           |     pyhd8ed1ab_0          79 KB  conda-forge
+    blas-1.0                   |              mkl           6 KB
+    blinker-1.4                |             py_1          13 KB  conda-forge
+    boto3-1.24.22              |     pyhd8ed1ab_0          72 KB  conda-forge
+    botocore-1.27.22           |     pyhd8ed1ab_0         5.5 MB  conda-forge
+    bottleneck-1.3.4           |   py39hce1f21e_0         126 KB
+    ca-certificates-2022.6.15  |       ha878542_0         149 KB  conda-forge
+    certifi-2022.6.15          |   py39hf3d152e_0         155 KB  conda-forge
+    click-8.1.3                |   py39hf3d152e_0         146 KB  conda-forge
+    cloudpickle-2.1.0          |     pyhd8ed1ab_0          25 KB  conda-forge
+    conda-4.13.0               |   py39hf3d152e_1         998 KB  conda-forge
+    configparser-5.2.0         |     pyhd8ed1ab_0          21 KB  conda-forge
+    databricks-cli-0.17.0      |     pyhd8ed1ab_0          75 KB  conda-forge
+    docker-py-5.0.3            |   py39hf3d152e_2         188 KB  conda-forge
+    docker-pycreds-0.4.0       |             py_0          11 KB  conda-forge
+    entrypoints-0.4            |     pyhd8ed1ab_0           9 KB  conda-forge
+    flask-2.1.2                |     pyhd8ed1ab_1          70 KB  conda-forge
+    gitdb-4.0.9                |     pyhd8ed1ab_0          46 KB  conda-forge
+    gitpython-3.1.27           |     pyhd8ed1ab_0         123 KB  conda-forge
+    gorilla-0.4.0              |     pyhd8ed1ab_0          13 KB  conda-forge
+    greenlet-1.1.1             |   py39h295c915_0          82 KB
+    gunicorn-20.1.0            |   py39hf3d152e_2         119 KB  conda-forge
+    importlib-metadata-4.11.4  |   py39hf3d152e_0          33 KB  conda-forge
+    importlib_resources-5.8.0  |     pyhd8ed1ab_0          22 KB  conda-forge
+    intel-openmp-2021.4.0      |    h06a4308_3561         4.2 MB
+    itsdangerous-2.1.2         |     pyhd8ed1ab_0          16 KB  conda-forge
+    jinja2-3.1.2               |     pyhd8ed1ab_1          99 KB  conda-forge
+    jmespath-1.0.1             |     pyhd8ed1ab_0          21 KB  conda-forge
+    libprotobuf-3.15.8         |       h780b84a_0         2.5 MB  conda-forge
+    mako-1.2.1                 |     pyhd8ed1ab_0          61 KB  conda-forge
+    markupsafe-2.0.1           |   py39h3811e60_0          22 KB  conda-forge
+    mkl-2021.4.0               |     h06a4308_640       142.6 MB
+    mkl-service-2.4.0          |   py39h3811e60_0          61 KB  conda-forge
+    mkl_fft-1.3.1              |   py39hd3c417c_0         182 KB
+    mkl_random-1.2.2           |   py39hde0f152_0         379 KB  conda-forge
+    mlflow-1.2.0               |             py_1         3.4 MB  conda-forge
+    numexpr-2.8.1              |   py39h6abb31d_0         124 KB
+    numpy-1.22.3               |   py39he7a7128_0          10 KB
+    numpy-base-1.22.3          |   py39hf524024_0         5.4 MB
+    oauthlib-3.2.0             |     pyhd8ed1ab_0          90 KB  conda-forge
+    packaging-21.3             |     pyhd8ed1ab_0          36 KB  conda-forge
+    pandas-1.4.2               |   py39h295c915_0         9.9 MB
+    protobuf-3.15.8            |   py39he80948d_0         336 KB  conda-forge
+    pyjwt-2.4.0                |     pyhd8ed1ab_0          19 KB  conda-forge
+    pymysql-1.0.2              |     pyhd8ed1ab_0          39 KB  conda-forge
+    pyparsing-3.0.9            |     pyhd8ed1ab_0          79 KB  conda-forge
+    python-dateutil-2.8.2      |     pyhd8ed1ab_0         240 KB  conda-forge
+    python_abi-3.9             |           2_cp39           4 KB  conda-forge
+    pytz-2022.1                |     pyhd8ed1ab_0         242 KB  conda-forge
+    pyyaml-5.4.1               |   py39h3811e60_0         193 KB  conda-forge
+    querystring_parser-1.2.4   |             py_0          10 KB  conda-forge
+    s3transfer-0.6.0           |     pyhd8ed1ab_0          55 KB  conda-forge
+    simplejson-3.17.6          |   py39h7f8727e_0         104 KB
+    smmap-3.0.5                |     pyh44b312d_0          22 KB  conda-forge
+    sqlalchemy-1.4.13          |   py39h3811e60_0         2.2 MB  conda-forge
+    sqlparse-0.4.2             |     pyhd8ed1ab_0          34 KB  conda-forge
+    tabulate-0.8.10            |     pyhd8ed1ab_0          29 KB  conda-forge
+    typing_extensions-4.3.0    |     pyha770c72_0          28 KB  conda-forge
+    websocket-client-1.3.3     |     pyhd8ed1ab_0          41 KB  conda-forge
+    werkzeug-2.1.2             |     pyhd8ed1ab_1         237 KB  conda-forge
+    zipp-3.8.0                 |     pyhd8ed1ab_0          12 KB  conda-forge
+    ------------------------------------------------------------
+                                           Total:       181.1 MB
+
+The following NEW packages will be INSTALLED:
+
+  alembic            conda-forge/noarch::alembic-1.8.0-pyhd8ed1ab_0
+  appdirs            conda-forge/noarch::appdirs-1.4.4-pyh9f0ad1d_0
+  asn1crypto         conda-forge/noarch::asn1crypto-1.5.1-pyhd8ed1ab_0
+  blas               pkgs/main/linux-64::blas-1.0-mkl
+  blinker            conda-forge/noarch::blinker-1.4-py_1
+  boto3              conda-forge/noarch::boto3-1.24.22-pyhd8ed1ab_0
+  botocore           conda-forge/noarch::botocore-1.27.22-pyhd8ed1ab_0
+  bottleneck         pkgs/main/linux-64::bottleneck-1.3.4-py39hce1f21e_0
+  click              conda-forge/linux-64::click-8.1.3-py39hf3d152e_0
+  cloudpickle        conda-forge/noarch::cloudpickle-2.1.0-pyhd8ed1ab_0
+  configparser       conda-forge/noarch::configparser-5.2.0-pyhd8ed1ab_0
+  databricks-cli     conda-forge/noarch::databricks-cli-0.17.0-pyhd8ed1ab_0
+  docker-py          conda-forge/linux-64::docker-py-5.0.3-py39hf3d152e_2
+  docker-pycreds     conda-forge/noarch::docker-pycreds-0.4.0-py_0
+  entrypoints        conda-forge/noarch::entrypoints-0.4-pyhd8ed1ab_0
+  flask              conda-forge/noarch::flask-2.1.2-pyhd8ed1ab_1
+  gitdb              conda-forge/noarch::gitdb-4.0.9-pyhd8ed1ab_0
+  gitpython          conda-forge/noarch::gitpython-3.1.27-pyhd8ed1ab_0
+  gorilla            conda-forge/noarch::gorilla-0.4.0-pyhd8ed1ab_0
+  greenlet           pkgs/main/linux-64::greenlet-1.1.1-py39h295c915_0
+  gunicorn           conda-forge/linux-64::gunicorn-20.1.0-py39hf3d152e_2
+  importlib-metadata conda-forge/linux-64::importlib-metadata-4.11.4-py39hf3d152e_0
+  importlib_resourc~ conda-forge/noarch::importlib_resources-5.8.0-pyhd8ed1ab_0
+  intel-openmp       pkgs/main/linux-64::intel-openmp-2021.4.0-h06a4308_3561
+  itsdangerous       conda-forge/noarch::itsdangerous-2.1.2-pyhd8ed1ab_0
+  jinja2             conda-forge/noarch::jinja2-3.1.2-pyhd8ed1ab_1
+  jmespath           conda-forge/noarch::jmespath-1.0.1-pyhd8ed1ab_0
+  libprotobuf        conda-forge/linux-64::libprotobuf-3.15.8-h780b84a_0
+  mako               conda-forge/noarch::mako-1.2.1-pyhd8ed1ab_0
+  markupsafe         conda-forge/linux-64::markupsafe-2.0.1-py39h3811e60_0
+  mkl                pkgs/main/linux-64::mkl-2021.4.0-h06a4308_640
+  mkl-service        conda-forge/linux-64::mkl-service-2.4.0-py39h3811e60_0
+  mkl_fft            pkgs/main/linux-64::mkl_fft-1.3.1-py39hd3c417c_0
+  mkl_random         conda-forge/linux-64::mkl_random-1.2.2-py39hde0f152_0
+  mlflow             conda-forge/noarch::mlflow-1.2.0-py_1
+  numexpr            pkgs/main/linux-64::numexpr-2.8.1-py39h6abb31d_0
+  numpy              pkgs/main/linux-64::numpy-1.22.3-py39he7a7128_0
+  numpy-base         pkgs/main/linux-64::numpy-base-1.22.3-py39hf524024_0
+  oauthlib           conda-forge/noarch::oauthlib-3.2.0-pyhd8ed1ab_0
+  packaging          conda-forge/noarch::packaging-21.3-pyhd8ed1ab_0
+  pandas             pkgs/main/linux-64::pandas-1.4.2-py39h295c915_0
+  protobuf           conda-forge/linux-64::protobuf-3.15.8-py39he80948d_0
+  pyjwt              conda-forge/noarch::pyjwt-2.4.0-pyhd8ed1ab_0
+  pymysql            conda-forge/noarch::pymysql-1.0.2-pyhd8ed1ab_0
+  pyparsing          conda-forge/noarch::pyparsing-3.0.9-pyhd8ed1ab_0
+  python-dateutil    conda-forge/noarch::python-dateutil-2.8.2-pyhd8ed1ab_0
+  python_abi         conda-forge/linux-64::python_abi-3.9-2_cp39
+  pytz               conda-forge/noarch::pytz-2022.1-pyhd8ed1ab_0
+  pyyaml             conda-forge/linux-64::pyyaml-5.4.1-py39h3811e60_0
+  querystring_parser conda-forge/noarch::querystring_parser-1.2.4-py_0
+  s3transfer         conda-forge/noarch::s3transfer-0.6.0-pyhd8ed1ab_0
+  simplejson         pkgs/main/linux-64::simplejson-3.17.6-py39h7f8727e_0
+  smmap              conda-forge/noarch::smmap-3.0.5-pyh44b312d_0
+  sqlalchemy         conda-forge/linux-64::sqlalchemy-1.4.13-py39h3811e60_0
+  sqlparse           conda-forge/noarch::sqlparse-0.4.2-pyhd8ed1ab_0
+  tabulate           conda-forge/noarch::tabulate-0.8.10-pyhd8ed1ab_0
+  typing_extensions  conda-forge/noarch::typing_extensions-4.3.0-pyha770c72_0
+  websocket-client   conda-forge/noarch::websocket-client-1.3.3-pyhd8ed1ab_0
+  werkzeug           conda-forge/noarch::werkzeug-2.1.2-pyhd8ed1ab_1
+  zipp               conda-forge/noarch::zipp-3.8.0-pyhd8ed1ab_0
+
+The following packages will be UPDATED:
+
+  ca-certificates    pkgs/main::ca-certificates-2022.3.29-~ --> conda-forge::ca-certificates-2022.6.15-ha878542_0
+  certifi            pkgs/main::certifi-2021.10.8-py39h06a~ --> conda-forge::certifi-2022.6.15-py39hf3d152e_0
+  conda              pkgs/main::conda-4.12.0-py39h06a4308_0 --> conda-forge::conda-4.13.0-py39hf3d152e_1
+
+
+
+Downloading and Extracting Packages
+tabulate-0.8.10      | 29 KB     | ########## | 100% 
+gitpython-3.1.27     | 123 KB    | ########## | 100% 
+mlflow-1.2.0         | 3.4 MB    | ########## | 100% 
+sqlalchemy-1.4.13    | 2.2 MB    | ########## | 100% 
+markupsafe-2.0.1     | 22 KB     | ########## | 100% 
+configparser-5.2.0   | 21 KB     | ########## | 100% 
+numexpr-2.8.1        | 124 KB    | ########## | 100% 
+mkl_fft-1.3.1        | 182 KB    | ########## | 100% 
+appdirs-1.4.4        | 13 KB     | ########## | 100% 
+libprotobuf-3.15.8   | 2.5 MB    | ########## | 100% 
+typing_extensions-4. | 28 KB     | ########## | 100% 
+flask-2.1.2          | 70 KB     | ########## | 100% 
+intel-openmp-2021.4. | 4.2 MB    | ########## | 100% 
+mkl-2021.4.0         | 142.6 MB  | ########## | 100% 
+alembic-1.8.0        | 137 KB    | ########## | 100% 
+docker-py-5.0.3      | 188 KB    | ########## | 100% 
+numpy-1.22.3         | 10 KB     | ########## | 100% 
+entrypoints-0.4      | 9 KB      | ########## | 100% 
+importlib-metadata-4 | 33 KB     | ########## | 100% 
+conda-4.13.0         | 998 KB    | ########## | 100% 
+numpy-base-1.22.3    | 5.4 MB    | ########## | 100% 
+zipp-3.8.0           | 12 KB     | ########## | 100% 
+mkl_random-1.2.2     | 379 KB    | ########## | 100% 
+asn1crypto-1.5.1     | 79 KB     | ########## | 100% 
+blas-1.0             | 6 KB      | ########## | 100% 
+boto3-1.24.22        | 72 KB     | ########## | 100% 
+python-dateutil-2.8. | 240 KB    | ########## | 100% 
+cloudpickle-2.1.0    | 25 KB     | ########## | 100% 
+importlib_resources- | 22 KB     | ########## | 100% 
+mkl-service-2.4.0    | 61 KB     | ########## | 100% 
+pyyaml-5.4.1         | 193 KB    | ########## | 100% 
+jinja2-3.1.2         | 99 KB     | ########## | 100% 
+werkzeug-2.1.2       | 237 KB    | ########## | 100% 
+docker-pycreds-0.4.0 | 11 KB     | ########## | 100% 
+oauthlib-3.2.0       | 90 KB     | ########## | 100% 
+pyparsing-3.0.9      | 79 KB     | ########## | 100% 
+blinker-1.4          | 13 KB     | ########## | 100% 
+botocore-1.27.22     | 5.5 MB    | ########## | 100% 
+querystring_parser-1 | 10 KB     | ########## | 100% 
+simplejson-3.17.6    | 104 KB    | ########## | 100% 
+gitdb-4.0.9          | 46 KB     | ########## | 100% 
+bottleneck-1.3.4     | 126 KB    | ########## | 100% 
+gunicorn-20.1.0      | 119 KB    | ########## | 100% 
+mako-1.2.1           | 61 KB     | ########## | 100% 
+sqlparse-0.4.2       | 34 KB     | ########## | 100% 
+protobuf-3.15.8      | 336 KB    | ########## | 100% 
+gorilla-0.4.0        | 13 KB     | ########## | 100% 
+click-8.1.3          | 146 KB    | ########## | 100% 
+smmap-3.0.5          | 22 KB     | ########## | 100% 
+pandas-1.4.2         | 9.9 MB    | ########## | 100% 
+packaging-21.3       | 36 KB     | ########## | 100% 
+databricks-cli-0.17. | 75 KB     | ########## | 100% 
+itsdangerous-2.1.2   | 16 KB     | ########## | 100% 
+pytz-2022.1          | 242 KB    | ########## | 100% 
+websocket-client-1.3 | 41 KB     | ########## | 100% 
+pyjwt-2.4.0          | 19 KB     | ########## | 100% 
+certifi-2022.6.15    | 155 KB    | ########## | 100% 
+greenlet-1.1.1       | 82 KB     | ########## | 100% 
+jmespath-1.0.1       | 21 KB     | ########## | 100% 
+s3transfer-0.6.0     | 55 KB     | ########## | 100% 
+pymysql-1.0.2        | 39 KB     | ########## | 100% 
+python_abi-3.9       | 4 KB      | ########## | 100% 
+ca-certificates-2022 | 149 KB    | ########## | 100% 
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
+Removing intermediate container 636fe8ca15fb
+ ---> a6421c245f51
+Step 5/5 : RUN chmod +x /app/1.sh && /app/1.sh
+ ---> Running in 1a891e60d1c8
+“Hello Netology”
+Removing intermediate container 1a891e60d1c8
+ ---> 1f8a6582f0c3
+Successfully built 1f8a6582f0c3
+Successfully tagged netology-ml:netology-ml
